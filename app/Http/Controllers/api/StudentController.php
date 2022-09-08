@@ -3,15 +3,26 @@
 namespace App\Http\Controllers\api;
 
 use App\Models\Student;
+use App\Service\GroupService;
+use App\Service\StudentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use \Illuminate\Http\JsonResponse;
 
 class StudentController extends BaseController
 {
+
+    protected StudentService $studentService;
+
+    public function __construct(StudentService $studentService)
+    {
+        $this->studentService = $studentService;
+    }
+
+
     public function index(): JsonResponse
     {
-        $students = Student::all();
+        $students = $this->studentService->findAll();
         return $this->sendResponse($students->toArray(), 'Students retrieved successfully.');
     }
 
@@ -27,16 +38,13 @@ class StudentController extends BaseController
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
-        $student = Student::create($input);
+        $student = $this->studentService->createStudent($input);
         return $this->sendResponse($student->toArray(), 'Student created successfully.');
     }
 
     public function show($id): JsonResponse
     {
-        $student = Student::find($id);
-        if (is_null($student)) {
-            return $this->sendError('Student not found.');
-        }
+        $student = $this->studentService->findById($id);
         return $this->sendResponse($student->toArray(), 'Student retrieved successfully.');
     }
 
@@ -50,15 +58,13 @@ class StudentController extends BaseController
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
-        $student->firstname = $input['firstname'];
-        $student->lastname = $input['lastname'];
-        $student->save();
+        $this->studentService->updateStudent($input, $student);
         return $this->sendResponse($student->toArray(), 'Student updated successfully.');
     }
 
     public function destroy(Student $student): JsonResponse
     {
-        $student->delete();
+        $this->studentService->deleteStudent($student);
         return $this->sendResponse($student->toArray(), 'Student deleted successfully.');
     }
 }

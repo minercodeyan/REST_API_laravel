@@ -2,17 +2,25 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Http\Resources\GroupListResource;
+
 use App\Http\Resources\GroupResource;
 use App\Models\Group;
+use App\Service\GroupService;
 use Illuminate\Http\Request;
 use \Illuminate\Http\JsonResponse;
 
 class GroupController extends BaseController
 {
+
+    protected GroupService $groupService;
+
+    public function __construct(GroupService $groupService)
+    {
+        $this->groupService = $groupService;
+    }
     public function index(): JsonResponse
     {
-        $groups = Group::all();
+        $groups = $this->groupService->findAll();
         return $this->sendResponse($groups->toArray(), 'Groups retrieved successfully.');
     }
 
@@ -21,12 +29,9 @@ class GroupController extends BaseController
       //
     }
 
-    public function show(Request $request, $id): JsonResponse
+    public function show(Request $request, $code): JsonResponse
     {
-        $group = Group::with('students')->find($id);
-        if (is_null($group)) {
-            return $this->sendError('Group not found.');
-        }
+        $group = $this->groupService->findGroupByCode($code);
         $withStudents = $request->query('withStudents');
         if($withStudents=='true'){
             return $this->sendResponse($group->toArray(), 'Group with students retrieved successfully.');
