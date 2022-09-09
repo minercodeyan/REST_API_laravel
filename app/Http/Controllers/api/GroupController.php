@@ -18,6 +18,7 @@ class GroupController extends BaseController
     {
         $this->groupService = $groupService;
     }
+
     public function index(): JsonResponse
     {
         $groups = $this->groupService->findAll();

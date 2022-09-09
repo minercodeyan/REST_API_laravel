@@ -2,70 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\BadCredException;
+use App\Http\Controllers\api\BaseController;
 use App\Models\User;
-use Illuminate\Http\Response;
+use App\Service\UserService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class AuthController extends BaseController
 {
+    protected UserService $userService;
 
-    public function register(Request $request): Response{
-        $fields = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed'
-        ]);
-
-        $user = User::create([
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'password' => bcrypt($fields['password'])
-        ]);
-
-        $token = $user->createToken('myapptoken')->plainTextToken;
-
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
-
-        return response($response, 201);
+    /**
+     * @param UserService $userService
+     */
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
     }
 
-    public function login(Request $request): Response
+
+    public function register(Request $request): JsonResponse
     {
-        $fields = $request->validate([
-            'email' => 'required|string',
-            'password' => 'required|string'
-        ]);
 
-        // Check email
-        $user = User::where('email', $fields['email'])->first();
-
-        // Check password
-        if(!$user || !Hash::check($fields['password'], $user->password)) {
-            return response([
-                'message' => 'Bad creds'
-            ], 401);
-        }
-
-        $token = $user->createToken('myapptoken')->plainTextToken;
-
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
-
-        return response($response, 201);
+        return $this->sendResponse($this->userService->createUser($request),
+                "user created successfully");
     }
 
-    public function logout(Request $request): array
+    /**
+     * @throws BadCredException
+     */
+    public function login(Request $request): JsonResponse
     {
-        auth()->user()->tokens()->delete();
+        return $this->sendResponse($this->userService->authUser($request),"hello user");
+    }
 
-        return [
-            'message' => 'Logged out'
-        ];
+    public function logout(Request $request): JsonResponse
+    {
+        $this->userService->logoutUser();
+        return $this->sendResponse([],"logout");
     }
 }

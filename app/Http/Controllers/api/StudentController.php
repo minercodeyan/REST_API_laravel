@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Models\Student;
 use App\Service\GroupService;
 use App\Service\StudentService;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use \Illuminate\Http\JsonResponse;
@@ -29,15 +30,6 @@ class StudentController extends BaseController
     public function store(Request $request): JsonResponse
     {
         $input = $request->all();
-        $validator = Validator::make($input, [
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'parent'=>'required',
-            'number'=>'required'
-        ]);
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
         $student = $this->studentService->createStudent($input);
         return $this->sendResponse($student->toArray(), 'Student created successfully.');
     }
@@ -51,13 +43,6 @@ class StudentController extends BaseController
     public function update(Request $request, Student $student): JsonResponse
     {
         $input = $request->all();
-        $validator = Validator::make($input, [
-            'firstname' => 'required',
-            'lastname' => 'required'
-        ]);
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
         $this->studentService->updateStudent($input, $student);
         return $this->sendResponse($student->toArray(), 'Student updated successfully.');
     }
