@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\GroupController;
+use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\StudentController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
@@ -19,10 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
-Route::resource("groups",GroupController::class);
 
 Route::group(['middleware'=>['auth:sanctum']], function(){
-    Route::resource("students",StudentController::class);
+    Route::resource("groups",GroupController::class);
+    Route::resource("products",ProductController::class);
     Route::post('/logout',[AuthController::class,'logout']);
 });
 

@@ -2,22 +2,23 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class StudentFactory extends Factory
+class ProductFactory extends Factory
 {
-    protected $model = Student::class;
+    protected $model = Product::class;
 
 
     public function definition()
     {
         return [
-            'firstname' => fake()->firstName(),
-            'lastname' => fake()->lastName(),
-            'parent'=> fake()->name(),
-            'number'=> fake()->numberBetween(920000,999999),
+            'name' => fake()->name(),
+            'measure' => fake()->numberBetween(10000,999999),
+            'barcode'=> fake()->numberBetween(1000,4000),
+            'selling_price'=> fake()->randomNumber(),
             'group_id'=> fake()->numberBetween(1,5),
         ];
     }

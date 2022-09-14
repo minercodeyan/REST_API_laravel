@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\GroupResources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,6 +17,6 @@ class GroupListResource extends JsonResource
         return [
             'id'=>$this->id,
             'code'=>$this->code,
-            'students'=>$this->students];
+            'products'=>$this->products];
     }
 }

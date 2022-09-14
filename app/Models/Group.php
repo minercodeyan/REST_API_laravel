@@ -9,9 +9,9 @@ class Group extends Model
 {
     use HasFactory;
 
-    public function students() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function products() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Product::class);
     }
 
 }

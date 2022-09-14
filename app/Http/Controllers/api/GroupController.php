@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\api;
 
-
-use App\Http\Resources\GroupResource;
+use App\Http\Resources\GroupResources\GroupResource;
 use App\Models\Group;
 use App\Service\GroupService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use \Illuminate\Http\JsonResponse;
 
 class GroupController extends BaseController
 {
@@ -33,9 +32,9 @@ class GroupController extends BaseController
     public function show(Request $request, $code): JsonResponse
     {
         $group = $this->groupService->findGroupByCode($code);
-        $withStudents = $request->query('withStudents');
+        $withStudents = $request->query('withProducts');
         if($withStudents=='true'){
-            return $this->sendResponse($group->toArray(), 'Group with students retrieved successfully.');
+            return $this->sendResponse($group->toArray(), 'Group with products retrieved successfully.');
         }
         else{
             return $this->sendResponse(new GroupResource($group), 'Group retrieved successfully.');

@@ -6,26 +6,33 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('parent');
-            $table->float('gpa')->nullable();
-            $table->integer('number');
+            $table->string('name');
+            $table->string('measure');
+            $table->string('barcode');
+            $table->string('selling_price');
             $table->foreignId('group_id')
                 ->references('id')
                 ->on('groups')
                 ->onDelete('cascade');
-            $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('products');
     }
 };

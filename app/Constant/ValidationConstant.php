@@ -4,21 +4,21 @@ namespace App\Constant;
 
 class ValidationConstant
 {
-    public static function getStudentValidationForSave(): array
+    public static function getProductValidationForSave(): array
     {
         return [
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'parent'=>'required',
-            'number'=>'required'
+            'name' => 'required',
+            'measure' => 'required',
+            'barcode'=>'required',
+            'selling_price'=>'required'
         ];
     }
 
-    public static function getStudentValidationForUpdate(): array
+    public static function getProductValidationForUpdate(): array
     {
         return  [
-            'firstname' => 'required',
-            'lastname' => 'required'
+            'name' => 'required',
+            'barcode' => 'required'
         ];
     }
 
