@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends AbstractModel
+
+class Product extends Model
 {
     use HasFactory;
     protected $table = 'products';
     public $timestamps = false;
 
-    protected array $columns =[
+    protected array $maps=[
+        'id'=>'id',
         'name' => 'name',
         'measure'=>'measure',
         'barcode'=>'barcode',

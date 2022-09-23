@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Exceptions\NotFoundException;
+use App\Http\Resources\ProductResources\ProductStandardResource;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class ProductController extends BaseController
     public function index(): JsonResponse
     {
         $products = $this->productService->findAll();
-        return $this->sendResponse($products->toArray(), 'Products retrieved successfully.');
+        return $this->sendResponse(ProductStandardResource::collection($products), 'Products retrieved successfully.');
     }
 
     /**
@@ -33,7 +34,7 @@ class ProductController extends BaseController
     {
         $input = $request->all();
         $product = $this->productService->createProduct($input);
-        return $this->sendResponse($product->toArray(), 'Product created successfully.');
+        return $this->sendResponse(new ProductStandardResource($product), 'Product created successfully.');
     }
 
     /**
@@ -42,7 +43,7 @@ class ProductController extends BaseController
     public function show($id): JsonResponse
     {
         $product = $this->productService->findProductById($id);
-        return $this->sendResponse($product->toArray(), 'Product retrieved successfully.');
+        return $this->sendResponse(new ProductStandardResource($product), 'Product retrieved successfully.');
     }
 
     /**
@@ -52,7 +53,7 @@ class ProductController extends BaseController
     {
         $input = $request->all();
         $this->productService->updateProduct($input, $product);
-        return $this->sendResponse($product->toArray(), 'Product updated successfully.');
+        return $this->sendResponse(new ProductStandardResource($product), 'Product updated successfully.');
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Exceptions\NotFoundException;
 use App\Http\Resources\GroupResources\GroupListResource;
 use App\Http\Resources\GroupResources\GroupResource;
+use App\Http\Resources\GroupResources\GroupStandardResource;
 use App\Services\GroupService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class GroupController extends BaseController
     public function index(): JsonResponse
     {
         $groups = $this->groupService->findAll();
-        return $this->sendResponse($groups->toArray(), 'Groups retrieved successfully.');
+        return $this->sendResponse(GroupStandardResource::collection($groups), 'Groups retrieved successfully.');
     }
 
     public function store(Request $request)
