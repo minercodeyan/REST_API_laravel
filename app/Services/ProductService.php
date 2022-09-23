@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
-use App\Constant\ValidationConstant;
+use App\Constants\ValidationConstant;
 use App\Exceptions\NotFoundException;
 use App\Models\Product;
 use App\Utils\ProjectValidator;
@@ -55,5 +55,10 @@ class ProductService
             throw new NotFoundException("Product already deleted and");
         })->delete();
     }
+
+    public function createProductsGroup($products){
+        return Product::create($products);
+    }
+
 
 }

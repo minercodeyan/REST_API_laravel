@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\BadCredException;
 use App\Http\Controllers\api\BaseController;
 use App\Models\User;
-use App\Service\UserService;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;

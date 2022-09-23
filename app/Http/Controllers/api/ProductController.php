@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Exceptions\NotFoundException;
 use App\Models\Product;
-use App\Service\ProductService;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
 use \Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
@@ -62,5 +62,11 @@ class ProductController extends BaseController
     {
         $deletedStudent = $this->productService->deleteProduct($id);
         return $this->sendResponse($deletedStudent, 'Product deleted successfully.');
+    }
+
+    public function addProductsGroup(Request $request): JsonResponse
+    {
+        $products=$request->all();
+        return $this->sendResponse($products,'group with products created successfully');
     }
 }

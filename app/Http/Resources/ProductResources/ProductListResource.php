@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Resources\GroupResources;
+namespace App\Http\Resources\ProductResources;
 
-use App\Http\Resources\ProductResources\ProductListResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GroupListResource extends JsonResource
+class ProductListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +15,9 @@ class GroupListResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'code'=>$this->code,
-            'products'=>ProductListResource::collection($this->products)
+            "id"=> $this->id,
+            "name"=> $this->name,
+            "sellingPrice"=> $this->selling_price,
         ];
     }
 }

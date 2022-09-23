@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
-use App\Constant\ValidationConstant;
+use App\Constants\ValidationConstant;
 use App\Exceptions\BadCredException;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;

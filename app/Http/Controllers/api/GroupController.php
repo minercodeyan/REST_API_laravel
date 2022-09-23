@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Exceptions\NotFoundException;
+use App\Http\Resources\GroupResources\GroupListResource;
 use App\Http\Resources\GroupResources\GroupResource;
-use App\Models\Group;
-use App\Service\GroupService;
+use App\Services\GroupService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -32,9 +33,9 @@ class GroupController extends BaseController
     public function show(Request $request, $code): JsonResponse
     {
         $group = $this->groupService->findGroupByCode($code);
-        $withStudents = $request->query('withProducts');
-        if($withStudents=='true'){
-            return $this->sendResponse($group->toArray(), 'Group with products retrieved successfully.');
+        $withProducts = $request->query('withProducts');
+        if($withProducts=='true'){
+            return $this->sendResponse(new GroupListResource($group), 'Group with products retrieved successfully.');
         }
         else{
             return $this->sendResponse(new GroupResource($group), 'Group retrieved successfully.');
@@ -46,10 +47,13 @@ class GroupController extends BaseController
         //
     }
 
-    public function destroy(Group $group): JsonResponse
+    /**
+     * @throws NotFoundException
+     */
+    public function destroy($id): JsonResponse
     {
-        $group->delete();
-        return $this->sendResponse($group->toArray(), 'Group deleted successfully.');
+        $deletedGroup=$this->groupService->deleteGroup($id);
+        return $this->sendResponse($deletedGroup, 'Group deleted successfully.');
     }
 
 }

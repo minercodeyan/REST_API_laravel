@@ -15,7 +15,7 @@ class BadCredException extends Exception
 
         return response([
             "success"=>false,
-            "massage" => $error,
+            "message" => $error,
             "help" => $help], $status);
     }
 }

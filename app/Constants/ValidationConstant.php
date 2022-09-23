@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Constant;
+namespace App\Constants;
 
 class ValidationConstant
 {
@@ -10,7 +10,7 @@ class ValidationConstant
             'name' => 'required',
             'measure' => 'required',
             'barcode'=>'required',
-            'selling_price'=>'required'
+            'sellingPrice'=>'required'
         ];
     }
 
