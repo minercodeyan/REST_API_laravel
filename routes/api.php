@@ -16,7 +16,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource("groups",GroupController::class);
 
     //product rotes
-    Route::get('/products/add-group', [ProductController::class, 'addProductsGroup']);
+    Route::post('/products/add-group', [ProductController::class, 'addProductsGroup']);
     Route::resource("products",ProductController::class);
     Route::post('/logout',[AuthController::class,'logout']);
 });

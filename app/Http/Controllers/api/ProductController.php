@@ -67,7 +67,8 @@ class ProductController extends BaseController
 
     public function addProductsGroup(Request $request): JsonResponse
     {
-        $products=$request->all();
-        return $this->sendResponse($products,'group with products created successfully');
+        $groupCode = $request->only("groupNumber");
+        $products = $request->only("products");
+        return $this->sendResponse($this->productService->createProductsGroup($products,$groupCode),'group with products created successfully');
     }
 }

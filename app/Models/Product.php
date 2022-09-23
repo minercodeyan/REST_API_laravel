@@ -26,6 +26,7 @@ class Product extends Model
         'name',
         'measure',
         'barcode',
-        'selling_price'
+        'selling_price',
+        'group_id'
     ];
 }

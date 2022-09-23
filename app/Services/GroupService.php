@@ -15,7 +15,8 @@ class GroupService
 
     public function findGroupByCode($code){
         return Group::with('products')
-            ->findOr($code,function (){
+            ->where('code',"=",$code)
+            ->firstOr(function (){
                 throw new NotFoundException("group");});
     }
 

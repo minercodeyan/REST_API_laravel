@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Constants\ValidationConstant;
 use App\Exceptions\NotFoundException;
+use App\Models\Dto\ProductDto;
+use App\Models\Group;
 use App\Models\Product;
 use App\Utils\ProjectValidator;
 use Illuminate\Validation\ValidationException;
@@ -56,8 +58,18 @@ class ProductService
         })->delete();
     }
 
-    public function createProductsGroup($products){
-        return Product::create($products);
+    public function createProductsGroup($products,$groupNumber){
+
+        $groupExist = Group::where("code","=",$groupNumber)
+            ->firstOr(function (){
+                throw new NotFoundException("group not found");});
+
+        $createdProducts = [];
+        foreach (array_values($products)[0] as &$product){
+          $newProd = new ProductDto((object)$product, $groupExist->id);
+          $createdProducts[] = $newProd->toArray();
+        }
+        return Product::insert($createdProducts);
     }
 
 
