@@ -58,14 +58,14 @@ class ProductService
         })->delete();
     }
 
-    public function createProductsGroup($products,$groupNumber){
+    public function createProductsGroup($array,$groupNumber){
 
         $groupExist = Group::where("code","=",$groupNumber)
             ->firstOr(function (){
                 throw new NotFoundException("group not found");});
 
         $createdProducts = [];
-        foreach (array_values($products)[0] as &$product){
+        foreach ($array["products"] as &$product){
           $newProd = new ProductDto((object)$product, $groupExist->id);
           $createdProducts[] = $newProd->toArray();
         }
